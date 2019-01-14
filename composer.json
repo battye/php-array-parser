@@ -1,0 +1,17 @@
+{
+  "name": "battye/php-array-parser",
+  "description": "Parse text representation of a PHP array into an actual PHP array.",
+  "keywords": ["array", "parser", "php"],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Battye\\ArrayParser\\": "src"
+    }
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "^4.1"
+  }
+}
