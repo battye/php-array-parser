@@ -4,7 +4,7 @@
   "keywords": ["array", "parser", "php"],
   "license": "MIT",
   "require": {
-    "php": ">=5.6.0"
+    "php": ">=5.3.3"
   },
   "autoload": {
     "psr-4": {

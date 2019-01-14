@@ -9,7 +9,7 @@ If you notice any bugs, please feel free to raise an issue or pull request.
 
 ## Example
 
-In both of the following examples, `$result` would contain a PHP array containing the representation of string or text file provided.
+In both of the following examples, `$result` would contain a PHP array containing the representation of the string or text file provided.
 
 ### Raw String
 
