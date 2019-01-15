@@ -5,7 +5,7 @@
  * Modified by battye, originally from: http://jsteemann.github.io/blog/2015/06/16/parsing-php-arrays-with-php/
  */
 
-namespace Battye\ArrayParser;
+namespace battye\array_parser;
 
 class tokens
 {

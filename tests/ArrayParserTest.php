@@ -4,8 +4,8 @@
  * Files in the files/ directory are straight copies of files from phpBB with varying complexity of arrays.
  */
 
-use Battye\ArrayParser\parser;
-use Battye\ArrayParser\tokens;
+use battye\array_parser\parser;
+use battye\array_parser\tokens;
 
 class ArrayParserTest extends \PHPUnit\Framework\TestCase
 {

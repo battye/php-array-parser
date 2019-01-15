@@ -8,7 +8,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Battye\\ArrayParser\\": "src"
+      "battye\\array_parser\\": "src"
     }
   },
   "require-dev": {
