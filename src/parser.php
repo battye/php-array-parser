@@ -182,9 +182,10 @@ class parser
 					$this->tokens->force_match(")");
 				}
 
-				if ($this->tokens->does_match(","))
+				// If we are done, just break immediately
+				if ($this->tokens->done())
 				{
-					$this->tokens->force_match(",");
+					break;
 				}
 
 				if ($this->tokens->does_match(";"))
