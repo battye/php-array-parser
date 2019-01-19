@@ -28,16 +28,17 @@ class parser
 	 * Simple and generic regex parser, made with phpBB in mind.
 	 * @param $regex
 	 * @param $path
+	 * @param int $group capture group
 	 * @return array|null
 	 */
-	public static function parse_regex($regex, $path)
+	public static function parse_regex($regex, $path, $group = 1)
 	{
 		// Find a regex match
 		$result = null;
 		$file = file_get_contents($path);
 		preg_match_all($regex, $file, $matches);
 
-		$multiple_matches = count($matches[1]);
+		$multiple_matches = count($matches[$group]);
 
 		$parse = function($match) {
 			$tokens = new tokens($match, true);
@@ -53,16 +54,12 @@ class parser
 			return $result;
 		};
 
-		if ($multiple_matches == 1)
-		{
-			$result = $parse($matches[1][0]);
-		}
+		// Return the results in an array
+		$result = [];
 
-		else if ($multiple_matches > 1)
+		if ($multiple_matches > 0)
 		{
-			$result = [];
-
-			foreach ($matches[1] as $match)
+			foreach ($matches[$group] as $match)
 			{
 				$result[] = $parse($match);
 			}

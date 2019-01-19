@@ -48,7 +48,7 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 		);
 
 		// Check that the results match
-		$this->assertArraySubset($expected_event_output, $result);
+		$this->assertArraySubset($expected_event_output, $result[0]);
 	}
 
 	/**
@@ -1430,7 +1430,7 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 		);
 
 		// Check that the results match
-		$this->assertArraySubset($expected_lang_output, $result);
+		$this->assertArraySubset($expected_lang_output, $result[0]);
 	}
 }
 ?>
