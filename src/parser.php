@@ -144,11 +144,23 @@ class parser
 	{
 		if (!$this->tokens->done())
 		{
-			while (count($this->tokens->peek()) > 1 && substr($this->tokens->peek()[1], 0, 2) === "//")
+			// Check for both short and long form comment blocks
+			while (count($this->tokens->peek()) > 1 && $this->is_comment_block($this->tokens->peek()[1]))
 			{
 				$this->tokens->pop(); // Ignore comments
 			}
 		}
+	}
+
+	public function is_comment_block($code)
+	{
+		// Short form
+		$short = (substr($code, 0, 2) === "//");
+
+		// Long form block
+		$long = (substr($code, 0, 2) == '/*' && substr($code, -2) == '*/');
+
+		return ($short || $long);
 	}
 
 	public function parse_array($square = false)

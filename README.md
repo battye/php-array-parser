@@ -3,7 +3,7 @@ A small library to parse text representations of a PHP array and return an actua
 
 ## Installation
 
-Run `composer install` to run this script (and tests) in a standalone way. Alternatively, this can be used as a dependency in another project by running `composer require battye/php-array-parser:1.0.3`.
+Run `composer install` to run this script (and tests) in a standalone way. Alternatively, this can be used as a dependency in another project by running `composer require battye/php-array-parser:1.0.4`.
 
 If you notice any bugs, please feel free to raise an issue or pull request.
 
