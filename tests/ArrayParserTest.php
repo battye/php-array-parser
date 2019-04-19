@@ -31,6 +31,30 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Test that variables can be picked up
+	 */
+	public function testCanDetectVariable()
+	{
+		// Put some variable names in there; test that we can have them in the start, middle or end
+		$string = "array(0 => array('one' => \$test, 'two' => \$test, 'three' => \$test));";
+
+		$tokens = new tokens($string);
+		$parser = new parser($tokens);
+		$result = $parser->parse_array();
+
+		// Expected output
+		$expected_simple_output = array(
+			0 => array(
+				'one' => parser::NOT_STRING_LITERAL,
+				'two' => parser::NOT_STRING_LITERAL,
+				'three' => parser::NOT_STRING_LITERAL,
+			)
+		);
+
+		$this->assertArraySubset($expected_simple_output, $result);
+	}
+
+	/**
 	 * Test that an event file is parsed correctly
 	 */
 	public function testCanParseEventFile()

@@ -73,15 +73,22 @@ class parser
 		// Ignore values that rely on another variable
 		if (!$this->tokens->done())
 		{
-			if (count($this->tokens->peek()) > 1 && substr($this->tokens->peek()[1], 0, 1) === "$")
+			if (is_array($this->tokens->peek()) && count($this->tokens->peek()) > 1 && substr($this->tokens->peek()[1], 0, 1) === "$")
 			{
+				// If a variable is being used as a value then don't bother with this any more
+				$literalValue = self::NOT_STRING_LITERAL;
+
 				while (!$this->tokens->does_match(","))
 				{
+					if ($this->tokens->does_match(")"))
+					{
+						return $literalValue;
+					}
+
 					$this->tokens->pop(); // Ignore comments
 				}
 
-				// If a variable is being used as a value then don't bother with this any more
-				return self::NOT_STRING_LITERAL;
+				return $literalValue;
 			}
 		}
 
@@ -145,7 +152,7 @@ class parser
 		if (!$this->tokens->done())
 		{
 			// Check for both short and long form comment blocks
-			while (count($this->tokens->peek()) > 1 && $this->is_comment_block($this->tokens->peek()[1]))
+			while (is_array($this->tokens->peek()) && count($this->tokens->peek()) > 1 && $this->is_comment_block($this->tokens->peek()[1]))
 			{
 				$this->tokens->pop(); // Ignore comments
 			}

@@ -62,7 +62,7 @@ class tokens
 	{
 		$token = $this->peek();
 
-		if (is_string($what) && ! is_array($token) && $token === $what)
+		if (is_string($what) && !is_array($token) && $token === $what)
 		{
 			return true;
 		}
