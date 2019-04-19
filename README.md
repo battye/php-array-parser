@@ -46,6 +46,8 @@ $result = parser::parse_regex($regex, $file);
 
 ## Tests
 
+[![Build Status](https://travis-ci.com/battye/php-array-parser.svg?branch=master)](https://travis-ci.com/battye/php-array-parser)
+
 The unit tests provide good examples of how to utilise this library and can be found in the `tests/` directory. To execute the unit tests, run:
 
     vendor/bin/simple-phpunit tests/
