@@ -30,9 +30,16 @@ class parser
 	 * @param $path
 	 * @param int $group capture group
 	 * @return array|null
+	 * @throws \Exception
 	 */
 	public static function parse_regex($regex, $path, $group = 1)
 	{
+		if (!file_exists($path))
+		{
+			// The file does not exist, so exit cleanly
+			throw new \Exception('The specified file does not exist: ' . $path);
+		}
+
 		// Find a regex match
 		$result = null;
 		$file = file_get_contents($path);

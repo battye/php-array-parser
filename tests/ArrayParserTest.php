@@ -76,6 +76,22 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Test that an exception is thrown if the file passe to the library does not exist
+	 */
+	public function testExceptionOnFileNotExisting()
+	{
+		$file = __DIR__ . '/files/file.does.not.exist';
+		$regex = '/\bclass\s+\S+\s+implements\s+EventSubscriberInterface\s*{\s*(?:[^{}]*{[^{}]*})*[^{}]*\bgetSubscribedEvents\(\)\s*{[^{}]*?(?:\barray\s*\(|\[)([^{}]*?)(?:\)|\])[^{}]*}/x';
+
+		// Prepare the expected exceptions
+		$this->expectException('Exception');
+		$this->expectExceptionMessage('The specified file does not exist: ' . $file);
+
+		// Run the parser with a fake file, expect an exception
+		parser::parse_regex($regex, $file);
+	}
+
+	/**
 	 * Test that a complex lang file is parsed correctly
 	 */
 	public function testCanParseLangFile()
