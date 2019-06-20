@@ -10,6 +10,22 @@ use battye\array_parser\tokens;
 class ArrayParserTest extends \PHPUnit\Framework\TestCase
 {
 	/**
+	 * Test a simple multi-dimensional array using the static function
+	 */
+	public function testParseSimple()
+	{
+		$string = "array('test' => [1, 2, 3, 4 => ['a', 'b', 'c']], 'value' => 'text');";
+		$result = parser::parse_simple($string);
+
+		$expected = [
+			'test' => [1, 2, 3, 4 => ['a', 'b', 'c']],
+			'value' => 'text',
+		];
+
+		$this->assertArraySubset($expected, $result);
+	}
+
+	/**
 	 * Test that a simple string is parsed correctly
 	 */
 	public function testCanParseSimpleString()

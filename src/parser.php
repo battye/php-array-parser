@@ -25,6 +25,21 @@ class parser
 	}
 
 	/**
+	 * Simple parser to convert a simple string to an array
+	 * @param $value
+	 * @return array
+	 * @throws \Exception
+	 */
+	public static function parse_simple($value)
+	{
+		$tokens = new tokens($value);
+		$parser = new parser($tokens);
+		$result = $parser->parse_array();
+
+		return $result;
+	}
+
+	/**
 	 * Simple and generic regex parser, made with phpBB in mind.
 	 * @param $regex
 	 * @param $path
