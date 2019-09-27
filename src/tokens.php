@@ -7,10 +7,18 @@
 
 namespace battye\array_parser;
 
+use battye\array_parser\exception\parser_exception;
+
 class tokens
 {
 	private $tokens;
 
+	/**
+	 * tokens constructor.
+	 * @param $code
+	 * @param bool $key_values_only
+	 * @throws parser_exception
+	 */
 	public function __construct($code, $key_values_only = false)
 	{
 		// Add the array keyword if we've only got keys and values
@@ -31,33 +39,51 @@ class tokens
 		$this->pop();
 	}
 
+	/**
+	 * Finished parsing tokens
+	 * @return bool
+	 */
 	public function done()
 	{
 		return count($this->tokens) === 0;
 	}
 
+	/**
+	 * Consume the token and return it
+	 * @return mixed
+	 * @throws parser_exception
+	 */
 	public function pop()
 	{
-		// Consume the token and return it
 		if ($this->done())
 		{
-			throw new \Exception("Already at the end of tokens!");
+			throw new parser_exception('Already at the end of tokens.');
 		}
 
 		return array_shift($this->tokens);
 	}
 
+	/**
+	 * Return next token, don't consume it
+	 * @return mixed
+	 * @throws parser_exception
+	 */
 	public function peek()
 	{
-		// Return next token, don't consume it
 		if ($this->done())
 		{
-			throw new \Exception("Already at the end of tokens!");
+			throw new parser_exception('Already at the end of tokens.');
 		}
 
 		return $this->tokens[0];
 	}
 
+	/**
+	 * Check if the next token matches what is expected
+	 * @param $what
+	 * @return bool
+	 * @throws parser_exception
+	 */
 	public function does_match($what)
 	{
 		$token = $this->peek();
@@ -75,16 +101,21 @@ class tokens
 		return false;
 	}
 
+	/**
+	 * Pop the token if it is a match
+	 * @param $what
+	 * @throws parser_exception
+	 */
 	public function force_match($what)
 	{
 		if (!$this->does_match($what))
 		{
 			if (is_int($what))
 			{
-				throw new \Exception("Unexpected token - expecting " . token_name($what));
+				throw new parser_exception('Unexpected token - expecting ' . token_name($what));
 			}
 			
-			throw new \Exception("Unexpected token - expecting " . $what);
+			throw new parser_exception('Unexpected token - expecting ' . $what);
 		}
 
 		// Consume the token

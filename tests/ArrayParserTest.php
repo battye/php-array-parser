@@ -6,6 +6,7 @@
 
 use battye\array_parser\parser;
 use battye\array_parser\tokens;
+use battye\array_parser\exception\parser_exception;
 
 class ArrayParserTest extends \PHPUnit\Framework\TestCase
 {
@@ -92,6 +93,27 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Test that the prefix is added to the exception
+	 */
+	public function testExceptionFormation()
+	{
+		$expected_output = '[php-array-parser] My exception message';
+
+		try
+		{
+			throw new parser_exception('My exception message');
+		}
+
+		catch (parser_exception $e)
+		{
+			// This confirms that if we pass it through parser_exception it will add the php-array-parser prefix
+			// to the exception message, which will make it useful to determine whether this script is where an
+			// exception orginated from (in addition to the custom exception class type).
+			$this->assertEquals($expected_output, $e->getMessage());
+		}
+	}
+
+	/**
 	 * Test that an exception is thrown if the file passe to the library does not exist
 	 */
 	public function testExceptionOnFileNotExisting()
@@ -100,7 +122,7 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 		$regex = '/\bclass\s+\S+\s+implements\s+EventSubscriberInterface\s*{\s*(?:[^{}]*{[^{}]*})*[^{}]*\bgetSubscribedEvents\(\)\s*{[^{}]*?(?:\barray\s*\(|\[)([^{}]*?)(?:\)|\])[^{}]*}/x';
 
 		// Prepare the expected exceptions
-		$this->expectException('Exception');
+		$this->expectException('battye\array_parser\exception\parser_exception');
 		$this->expectExceptionMessage('The specified file does not exist: ' . $file);
 
 		// Run the parser with a fake file, expect an exception

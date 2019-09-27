@@ -7,6 +7,8 @@
 
 namespace battye\array_parser;
 
+use battye\array_parser\exception\parser_exception;
+
 class parser
 {
 	const NOT_STRING_LITERAL = '-- Not a supported string literal (unprocessed value). --';
@@ -19,6 +21,10 @@ class parser
 
 	private $tokens;
 
+	/**
+	 * parser constructor.
+	 * @param tokens $tokens
+	 */
 	public function __construct(tokens $tokens)
 	{
 		$this->tokens = $tokens;
@@ -28,7 +34,7 @@ class parser
 	 * Simple parser to convert a simple string to an array
 	 * @param $value
 	 * @return array
-	 * @throws \Exception
+	 * @throws parser_exception
 	 */
 	public static function parse_simple($value)
 	{
@@ -45,14 +51,14 @@ class parser
 	 * @param $path
 	 * @param int $group capture group
 	 * @return array|null
-	 * @throws \Exception
+	 * @throws parser_exception
 	 */
 	public static function parse_regex($regex, $path, $group = 1)
 	{
 		if (!file_exists($path))
 		{
 			// The file does not exist, so exit cleanly
-			throw new \Exception('The specified file does not exist: ' . $path);
+			throw new parser_exception('The specified file does not exist: ' . $path);
 		}
 
 		// Find a regex match
@@ -70,7 +76,7 @@ class parser
 
 			if (!$tokens->done())
 			{
-				throw new \Exception("Still tokens left after parsing.");
+				throw new parser_exception('Still tokens left after parsing.');
 			}
 
 			return $result;
@@ -90,6 +96,11 @@ class parser
 		return $result;
 	}
 
+	/**
+	 * Parse each token
+	 * @return float|int|string
+	 * @throws parser_exception
+	 */
 	public function parse_value()
 	{
 		// Ignore values that rely on another variable
@@ -132,7 +143,7 @@ class parser
 				return self::$CONSTANTS[$value];
 			}
 
-			throw new \Exception("Unexpected string literal " . $token[1]);
+			throw new parser_exception('Unexpected string literal: ' . $token[1]);
 		}
 
 		else if ($this->tokens->does_match(T_ARRAY) || $this->tokens->does_match('['))
@@ -166,9 +177,13 @@ class parser
 			return $uminus * (double) $value[1];
 		}
 
-		throw new \Exception("Unexpected value token");
+		throw new parser_exception('Unexpected token encountered, potentially due to a malformed array.');
 	}
 
+	/**
+	 * Disregard comments when parsing
+	 * @throws parser_exception
+	 */
 	public function ignore_comments()
 	{
 		if (!$this->tokens->done())
@@ -181,6 +196,11 @@ class parser
 		}
 	}
 
+	/**
+	 * Determine whether something is a comment
+	 * @param $code
+	 * @return bool
+	 */
 	public function is_comment_block($code)
 	{
 		// Short form
@@ -192,6 +212,11 @@ class parser
 		return ($short || $long);
 	}
 
+	/**
+	 * @param bool $square
+	 * @return array
+	 * @throws parser_exception
+	 */
 	public function parse_array($square = false)
 	{
 		$found = 0;
