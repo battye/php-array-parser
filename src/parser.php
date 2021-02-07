@@ -40,7 +40,7 @@ class parser
 	{
 		$tokens = new tokens($value);
 		$parser = new parser($tokens);
-		$result = $parser->parse_array();
+		$result = $parser->parse_array($tokens->does_match('['));
 
 		return $result;
 	}

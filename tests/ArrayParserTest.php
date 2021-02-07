@@ -48,6 +48,28 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Test starting arrays with a short syntax
+	 * Discovered by qg0 at https://github.com/battye/php-array-parser/issues/1
+	 */
+	public function testParseStringStartingWithShortSyntax()
+	{
+		// Start with a square bracket
+		$string = "[0 => array('one' => 1, 'two' => 'two', 3 => [1])];";
+		$result = parser::parse_simple($string);
+
+		// Expected output
+		$expected_simple_output = array(
+			0 => array(
+				'one' => 1,
+				'two' => 'two',
+				3 => array(1),
+			)
+		);
+
+		$this->assertArraySubset($expected_simple_output, $result);
+	}
+
+	/**
 	 * Test that variables can be picked up
 	 */
 	public function testCanDetectVariable()
