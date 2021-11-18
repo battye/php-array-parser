@@ -209,7 +209,10 @@ class parser
 		// Long form block
 		$long = (substr($code, 0, 2) == '/*' && substr($code, -2) == '*/');
 
-		return ($short || $long);
+		// Hash form
+		$hash = (substr($code, 0, 1) === '#');
+
+		return ($short || $long || $hash);
 	}
 
 	/**
@@ -235,6 +238,9 @@ class parser
 
 		while (true)
 		{
+			// Immediately ignore any comments
+			$this->ignore_comments();
+
 			if ($this->tokens->does_match(")") || $this->tokens->does_match("]"))
 			{
 				// Reached the end of the array
@@ -303,6 +309,10 @@ class parser
 				{
 					// Array key (key => value)
 					$this->tokens->pop();
+
+					// Ignore comments in case someone put them on a new line within the array
+					$this->ignore_comments();
+
 					$result[$string] = $this->parse_value();
 				}
 

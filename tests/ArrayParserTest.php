@@ -94,6 +94,42 @@ class ArrayParserTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Test that we can include all types of comments in unusual places
+	 */
+	public function testComments()
+	{
+		$string = "array(0 => 
+			// upfront test comment
+			# upfront test comment
+			/* upfront test comment */					
+			array(
+				'one' => 1, // expect 1
+				/* internal test comment */		
+				'two' => 2, /* expect 2 */
+				# internal test comment
+				'three' => 3, # expect 3
+				// internal test comment
+			)
+			# a strange place for a test comment
+			)
+			/*
+				final test comment
+				but multi-line
+		 	*/
+			;";
+
+		$tokens = new tokens($string);
+		$parser = new parser($tokens);
+		$result = $parser->parse_array();
+
+		$expected_output = [
+			['one' => 1, 'two' => 2, 'three' => 3]
+		];
+
+		$this->assertArraySubset($expected_output, $result);
+	}
+
+	/**
 	 * Test that an event file is parsed correctly
 	 */
 	public function testCanParseEventFile()
