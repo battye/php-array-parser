@@ -51,7 +51,7 @@ $result = parser::parse_regex($regex, $file);
 
 ## Tests
 
-[![Latest Stable Version](https://poser.pugx.org/battye/php-array-parser/v/stable)](https://packagist.org/packages/battye/php-array-parser) [![Total Downloads](https://poser.pugx.org/battye/php-array-parser/downloads)](https://packagist.org/packages/battye/php-array-parser)
+[![Latest Stable Version](https://poser.pugx.org/battye/php-array-parser/v/stable)](https://packagist.org/packages/battye/php-array-parser) [![Total Downloads](https://poser.pugx.org/battye/php-array-parser/downloads)](https://packagist.org/packages/battye/php-array-parser) ![GitHub Actions CI](https://github.com/battye/php-array-parser/actions/workflows/phpunit.yaml/badge.svg?branch=master)
 
 The unit tests provide good examples of how to utilise this library and can be found in the `tests/` directory. To execute the unit tests, run:
 
